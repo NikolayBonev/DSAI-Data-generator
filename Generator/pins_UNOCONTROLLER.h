@@ -26,6 +26,8 @@
 #define THERMO_DO			4
 #define THERMO_CS 			5
 #define THERMO_CLK 			6
+#define DHT22_PIN			7
 #define VCC_PIN 			3
 #define GND_PIN 			2
-#define TERMO_SETUP_SLEEP	500
+#define TERMOCOUPLE_SLEEP	500
+#define	DHT22_SLEEP			2000

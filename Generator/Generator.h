@@ -27,5 +27,6 @@
 #include "GeneratorConfig.h"
 #include "serial.h"
 #include "max6675.h"
+#include "dht.h"
 
 #endif // GENERATOR_H

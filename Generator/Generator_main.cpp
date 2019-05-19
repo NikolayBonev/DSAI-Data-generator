@@ -24,6 +24,7 @@
 #include "Generator.h"
 
 MAX6675 thermocouple(THERMO_CLK, THERMO_CS, THERMO_DO);
+dht DHT; // Creats a DHT object
 
 /**
  * Generator entry-point: Set up before the program loop
@@ -40,14 +41,11 @@ void setup() {
   pinMode(VCC_PIN, OUTPUT); digitalWrite(VCC_PIN, HIGH);
   pinMode(GND_PIN, OUTPUT); digitalWrite(GND_PIN, LOW);
   
-  //Serial.println("MAX6675 test123");
-  //Serial.println(BOARD_NAME);
-  
   SERIAL_ECHOLN("MAX6675 test123");
   SERIAL_ECHOLN(BOARD_NAME);
 
   // wait for MAX chip to stabilize
-  delay(TERMO_SETUP_SLEEP);
+  delay(TERMOCOUPLE_SLEEP);
 }
 
 /**
@@ -61,12 +59,23 @@ void setup() {
  *  - Process available commands (if not saving)
  */
 void loop() {
-  // basic readout test, just print the current temp
+  int readData = DHT.read22(DHT22_PIN); // Reads the data from the sensor
+  float t = DHT.temperature; // Gets the values of the temperature
+  float h = DHT.humidity; // Gets the values of the humidity
   
-   SERIAL_ECHO("C = "); 
-   SERIAL_ECHOLN(thermocouple.readCelsius());
-   SERIAL_ECHO("F = ");
-   SERIAL_ECHOLN(thermocouple.readFahrenheit());
+  // Printing the results on the serial monitor
+  SERIAL_ECHO("Temperature(DHT) = ");
+  SERIAL_ECHO(t);
+  SERIAL_ECHOLN(" *C");
+  SERIAL_ECHO("Humidity(DHT) = ");
+  SERIAL_ECHO(h);
+  SERIAL_ECHOLN(" %");
+  
+  // basic readout test, just print the current temp from termocouple  
+  SERIAL_ECHO("C = "); 
+  SERIAL_ECHOLN(thermocouple.readCelsius());
+  SERIAL_ECHO("F = ");
+  SERIAL_ECHOLN(thermocouple.readFahrenheit());
  
-   delay(1000);
+  delay(DHT22_SLEEP); // Delays 2 secods, as the DHT22 sampling rate is 0.5Hz
 }
