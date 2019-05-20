@@ -23,10 +23,12 @@
 #endif
 #include <util/delay.h>
 #include <stdlib.h>
+#include <SoftwareSerial.h>
 
 #include "GeneratorConfig.h"
 #include "serial.h"
 #include "max6675.h"
 #include "dht.h"
+#include "TinyGPS++.h"
 
 #endif // GENERATOR_H

@@ -23,11 +23,13 @@
 //
 // Thermocouple pins
 //
-#define THERMO_DO			4
+#define THERMO_DO			8
 #define THERMO_CS 			5
 #define THERMO_CLK 			6
 #define DHT22_PIN			7
-#define VCC_PIN 			3
+#define VCC_PIN 			9
 #define GND_PIN 			2
+#define GPS_RX				3
+#define GPS_TX				4
 #define TERMOCOUPLE_SLEEP	500
 #define	DHT22_SLEEP			2000

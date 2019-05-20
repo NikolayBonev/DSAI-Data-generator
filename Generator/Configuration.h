@@ -54,6 +54,13 @@
  */
 #define BAUDRATE 9600
 
+/**
+ * If your GPS module uses a different default baud rate,
+ * you should also modify that. You need to change that to 9600,
+ * if you’re using the NEO-6M GPS module.
+*/
+#define GPS_BAUDRATE 9600
+
 // The following define selects which electronics board you have.
 // Please choose the name that matches your setup
 #ifndef MOTHERBOARD

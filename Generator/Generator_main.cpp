@@ -24,7 +24,9 @@
 #include "Generator.h"
 
 MAX6675 thermocouple(THERMO_CLK, THERMO_CS, THERMO_DO);
-dht DHT; // Creats a DHT object
+dht DHT; // Create a DHT object
+TinyGPSPlus gps; // Create a TinyGPS++ object
+SoftwareSerial ss(GPS_RX, GPS_TX); // The serial connection to the GPS device
 
 /**
  * Generator entry-point: Set up before the program loop
@@ -37,6 +39,8 @@ dht DHT; // Creats a DHT object
  */
 void setup() {
   Serial.begin(BAUDRATE);
+  ss.begin(GPS_BAUDRATE);
+
   // use Arduino pins 
   pinMode(VCC_PIN, OUTPUT); digitalWrite(VCC_PIN, HIGH);
   pinMode(GND_PIN, OUTPUT); digitalWrite(GND_PIN, LOW);
@@ -59,7 +63,7 @@ void setup() {
  *  - Process available commands (if not saving)
  */
 void loop() {
-  int readData = DHT.read22(DHT22_PIN); // Reads the data from the sensor
+/*  int readData = DHT.read22(DHT22_PIN); // Reads the data from the sensor
   float t = DHT.temperature; // Gets the values of the temperature
   float h = DHT.humidity; // Gets the values of the humidity
   
@@ -78,4 +82,14 @@ void loop() {
   SERIAL_ECHOLN(thermocouple.readFahrenheit());
  
   delay(DHT22_SLEEP); // Delays 2 secods, as the DHT22 sampling rate is 0.5Hz
+*/
+  while (ss.available() > 0){
+    gps.encode(ss.read());
+    if (gps.location.isUpdated()){
+      Serial.print("Latitude= "); 
+      Serial.print(gps.location.lat(), 6);
+      Serial.print(" Longitude= "); 
+      Serial.println(gps.location.lng(), 6);
+    }
+  }
 }

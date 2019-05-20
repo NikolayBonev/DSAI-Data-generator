@@ -1,6 +1,7 @@
-generator (0.0.1-1) unstable; urgency=critical
+generator (0.0.1-2) unstable; urgency=critical
 
   * Added basic logic
   * Added support for DHT sensors
+  * Added support for GPS module
 
- -- Viktor Stojkov <vstojkov@abv.bg>  Sun, 19 May 2019 23:23:30 +0200
+ -- Viktor Stojkov <vstojkov@abv.bg>  Mon, 20 May 2019 00:00:30 +0200
