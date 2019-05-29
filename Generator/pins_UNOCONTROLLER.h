@@ -28,8 +28,10 @@
 #define THERMO_CLK 			6
 #define DHT22_PIN			7
 #define VCC_PIN 			9
-#define GND_PIN 			2
+#define GND_PIN 			10
 #define GPS_RX				3
 #define GPS_TX				4
+#define ESP_RX				2
+#define	ESP_TX				3
 #define TERMOCOUPLE_SLEEP	500
 #define	DHT22_SLEEP			2000

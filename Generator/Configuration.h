@@ -48,7 +48,7 @@
 #define SERIAL_PORT 0
 
 /**
- * This setting determines the communication speed of the printer.
+ * This setting determines the communication speed of the controller.
  *
  * :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000]
  */
@@ -60,6 +60,11 @@
  * if you’re using the NEO-6M GPS module.
 */
 #define GPS_BAUDRATE 9600
+
+/**
+ * This setting determines the communication speed of the EXP8266 module.
+*/
+#define ESP_BAUDRATE 9600
 
 // The following define selects which electronics board you have.
 // Please choose the name that matches your setup
