@@ -1,8 +1,9 @@
-generator (0.0.1-3) unstable; urgency=critical
+generator (0.0.1-4) unstable; urgency=critical
 
   * Added basic logic
   * Added support for DHT sensors
   * Added support for GPS module
   * Added support for ESP8266 WiFi module
+  * Added basic logic for ESP webserver 
 
- -- Viktor Stojkov <vstojkov@abv.bg>  Thu, 30 May 2019 00:36:30 +0200
+ -- Viktor Stojkov <vstojkov@abv.bg>  Fri, 31 May 2019 00:38:30 +0200
