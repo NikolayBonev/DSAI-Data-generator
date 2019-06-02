@@ -69,7 +69,7 @@
 // The following define selects which electronics board you have.
 // Please choose the name that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_UNOCONTROLLER
+  #define MOTHERBOARD BOARD_MEGACONTROLLER
 #endif
 
 #endif // CONFIGURATION_H

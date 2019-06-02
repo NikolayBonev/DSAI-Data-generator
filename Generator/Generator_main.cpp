@@ -26,8 +26,9 @@
 MAX6675 thermocouple(THERMO_CLK, THERMO_CS, THERMO_DO);
 dht DHT; // Create a DHT object
 TinyGPSPlus gps; // Create a TinyGPS++ object
-SoftwareSerial ss(GPS_RX, GPS_TX); // The serial connection to the GPS device
-SoftwareSerial esp_ss(ESP_RX, ESP_TX); // The serial connection to the ESP8266 device
+// Uncomment only for UNO controller
+//SoftwareSerial ss(GPS_RX, GPS_TX); // The serial connection to the GPS device
+//SoftwareSerial esp_ss(ESP_RX, ESP_TX); // The serial connection to the ESP8266 device
 
 /**
  * Generator entry-point: Set up before the program loop
@@ -40,8 +41,11 @@ SoftwareSerial esp_ss(ESP_RX, ESP_TX); // The serial connection to the ESP8266 d
  */
 void setup() {
   Serial.begin(BAUDRATE);
-  ss.begin(GPS_BAUDRATE);
-  esp_ss.begin(ESP_BAUDRATE);
+  Serial1.begin(ESP_BAUDRATE);
+  Serial2.begin(GPS_BAUDRATE);
+  // Uncomment only for UNO controller
+  //ss.begin(GPS_BAUDRATE);
+  //esp_ss.begin(ESP_BAUDRATE);
 
   // use Arduino pins 
   pinMode(VCC_PIN, OUTPUT); digitalWrite(VCC_PIN, HIGH);
@@ -86,20 +90,20 @@ void loop() {
   delay(DHT22_SLEEP); // Delays 2 secods, as the DHT22 sampling rate is 0.5Hz
 */
   // GPS test
-/*  while (ss.available() > 0 ){
-    gps.encode(ss.read());
+  while (Serial2.available() > 0 ){
+    gps.encode(Serial2.read());
     if (gps.location.isUpdated()){
-      Serial.print("Latitude= "); 
-      Serial.print(gps.location.lat(), 6);
-      Serial.print(" Longitude= "); 
+      SERIAL_ECHO("Latitude= "); 
+      Serial.println(gps.location.lat(), 6);
+      SERIAL_ECHO("Longitude= "); 
       Serial.println(gps.location.lng(), 6);
     }
   }
-*/
+
   // ESP test
   String incomming_string="";
-  while ( esp_ss.available() > 0 ){
-    incomming_string=esp_ss.readString();
+  while ( Serial1.available() > 0 ){
+    incomming_string=Serial1.readString();
     SERIAL_ECHOLN("Received string:" + incomming_string);
   }
 }

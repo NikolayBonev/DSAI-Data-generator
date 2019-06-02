@@ -31,6 +31,8 @@
 
 #if MB(BOARD_UNOCONTROLLER)
   #include "pins_UNOCONTROLLER.h"
+#elif MB(BOARD_MEGACONTROLLER)
+  #include "pins_MEGACONTROLLER.h" // ATmega2560
 #else
   #error "Unknown MOTHERBOARD value set in Configuration.h"
 #endif
