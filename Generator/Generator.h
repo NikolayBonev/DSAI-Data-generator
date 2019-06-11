@@ -22,6 +22,7 @@
   #include <pgmspace.h>
 #endif
 #include <util/delay.h>
+#include <stdio.h> 
 #include <stdlib.h>
 #include <SoftwareSerial.h>
 

@@ -27,8 +27,8 @@
 #define THERMO_CS 			5
 #define THERMO_CLK 			6
 #define DHT22_PIN			7
-#define VCC_PIN 			9
-#define GND_PIN 			10
+//#define VCC_PIN 			9
+//#define GND_PIN 			10
 #define GPS_RX				3
 #define GPS_TX				4
 #define ESP_RX				2

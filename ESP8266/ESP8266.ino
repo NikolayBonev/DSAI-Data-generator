@@ -7,12 +7,13 @@
  * and examples.
  *
  * Used Stefan Thesen's example (04/2015)
+ * Tested with v2.1.0 of ESP library.
  */
 
 #include <ESP8266WiFi.h>
 
-const char* ssid = "BULGARIA";
-const char* password = "WR841";
+const char* ssid = "HUAWEI_P20";
+const char* password = "BULGARIA";
 
 unsigned long ulReqcount;
 unsigned long ulReconncount;
@@ -26,10 +27,6 @@ void setup()
   // setup globals
   ulReqcount=0; 
   ulReconncount=0;
-  
-  // prepare GPIO2
-  pinMode(2, OUTPUT);
-  digitalWrite(2, 0);
   
   // start serial
   Serial.begin(9600);
@@ -169,7 +166,7 @@ void loop()
  sResponse  = "<html><head><title>RSAI-Project</title><meta charset=\"utf-8\"></head><body>";
     sResponse += "<font color=\"#ffffff\"><body>";
     sResponse += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=yes\">";
-    sResponse += "<center><a href=\"#\"><img src=\"http://www.clker.com/cliparts/F/F/3/p/w/R/small-car-park-md.png\" alt=\"FStudent-Bulgaria\"></a><h1>WiFi control:</h1>";
+    sResponse += "<center><a href=\"#\"><img src=\"http://www.clker.com/cliparts/F/F/3/p/w/R/small-car-park-md.png\" alt=\"TU-Sofia\"></a><h1>WiFi control:</h1>";
     sResponse += "FUNCTION1- <BR>";
     sResponse += "FUNCTION2- <BR>";
     sResponse += "<FONT SIZE=+1>";
@@ -185,11 +182,11 @@ void loop()
       // switch GPIO
       if(sCmd.indexOf("FUNCTION1ON")>=0)
       {
-        digitalWrite(2, 1);
+        Serial.write("lights_on");
       }
       else if(sCmd.indexOf("FUNCTION1OFF")>=0)
       {
-        digitalWrite(2, 0);
+        Serial.write("lights_off");
       }
     }
     

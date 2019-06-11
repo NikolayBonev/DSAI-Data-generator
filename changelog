@@ -1,4 +1,4 @@
-generator (0.0.1-5) unstable; urgency=critical
+generator (0.0.1-6) unstable; urgency=critical
 
   [Viktor Stojkov]
   * Added basic logic
@@ -7,5 +7,6 @@ generator (0.0.1-5) unstable; urgency=critical
   * Added support for ESP8266 WiFi module
   * Added basic logic for ESP webserver
   * Added support for MEGA controller
+  * Added more sensors and MEGA controller extensions
 
- -- Viktor Stojkov <vstojkov@abv.bg>  Mon, 03 Jun 2019 00:23:30 +0200
+ -- Viktor Stojkov <vstojkov@abv.bg>  Wed, 12 Jun 2019 01:28:30 +0200

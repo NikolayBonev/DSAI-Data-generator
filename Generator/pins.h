@@ -29,10 +29,10 @@
 #ifndef __PINS_H__
 #define __PINS_H__
 
-#if MB(BOARD_UNOCONTROLLER)
-  #include "pins_UNOCONTROLLER.h"
-#elif MB(BOARD_MEGACONTROLLER)
+#if MB(BOARD_MEGACONTROLLER)
   #include "pins_MEGACONTROLLER.h" // ATmega2560
+#elif MB(BOARD_UNOCONTROLLER)
+  #include "pins_UNOCONTROLLER.h" // ATmega 326P
 #else
   #error "Unknown MOTHERBOARD value set in Configuration.h"
 #endif

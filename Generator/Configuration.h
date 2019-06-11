@@ -66,8 +66,16 @@
 */
 #define ESP_BAUDRATE 9600
 
+/**
+ * Constants
+ */
+#define SPEED_CONST 4.2625
+#define RPM_CONST 0.1364
+#define FUEL_CONST 10.23
+
 // The following define selects which electronics board you have.
 // Please choose the name that matches your setup
+// Available boards: BOARD_UNOCONTROLLER, BOARD_MEGACONTROLLER
 #ifndef MOTHERBOARD
   #define MOTHERBOARD BOARD_MEGACONTROLLER
 #endif

@@ -30,6 +30,24 @@ TinyGPSPlus gps; // Create a TinyGPS++ object
 //SoftwareSerial ss(GPS_RX, GPS_TX); // The serial connection to the GPS device
 //SoftwareSerial esp_ss(ESP_RX, ESP_TX); // The serial connection to the ESP8266 device
 
+// variables will change:
+String incomming_string="";
+String buf;
+String ecu_code="P0000";
+int val0 = 0; // potentiometer value
+int val1 = 0;
+int val2 = 0;
+int buttonState2 = 0; // button state
+int buttonState3 = 0;
+int buttonState4 = 0;
+int buttonState5 = 0;
+float t, h; // DHT sensor
+float gps_lat, gps_lng; // GPS
+int Vo; // thermistor
+float logR2, R2, T, Tc, Tf; // thermistor
+float c1 = 1.009249522e-03, c2 = 2.378405444e-04, c3 = 2.019202697e-07; // thermistor
+unsigned long previousMillis = 0; // will store last updated time
+
 /**
  * Generator entry-point: Set up before the program loop
  *  - Start the serial port
@@ -39,23 +57,91 @@ TinyGPSPlus gps; // Create a TinyGPS++ object
  *	  • sensors
  *    • status LEDs
  */
-void setup() {
+void setup(){
   Serial.begin(BAUDRATE);
   Serial1.begin(ESP_BAUDRATE);
   Serial2.begin(GPS_BAUDRATE);
+
+  //Set car pins
+  pinMode(HEADLIGHTS, OUTPUT);
+  digitalWrite(HEADLIGHTS, LOW);
   // Uncomment only for UNO controller
   //ss.begin(GPS_BAUDRATE);
   //esp_ss.begin(ESP_BAUDRATE);
 
   // use Arduino pins 
-  pinMode(VCC_PIN, OUTPUT); digitalWrite(VCC_PIN, HIGH);
-  pinMode(GND_PIN, OUTPUT); digitalWrite(GND_PIN, LOW);
-  
-  SERIAL_ECHOLN("MAX6675 test123");
+  //pinMode(VCC_PIN, OUTPUT); digitalWrite(VCC_PIN, HIGH);
+  //pinMode(GND_PIN, OUTPUT); digitalWrite(GND_PIN, LOW);
+
   SERIAL_ECHOLN(BOARD_NAME);
 
   // wait for MAX chip to stabilize
   delay(TERMOCOUPLE_SLEEP);
+}
+
+void control_sensors(){
+  //Potentiometers and buttons test
+  val0 = analogRead(POT_PIN0); // read the value from the potentiometer
+  val1 = analogRead(POT_PIN1);
+  val2 = analogRead(POT_PIN2);
+
+  buttonState2 = digitalRead(BUTTON_PIN2); // read the value from the button
+  buttonState3 = digitalRead(BUTTON_PIN3);
+  buttonState4 = digitalRead(BUTTON_PIN4);
+  buttonState5 = digitalRead(BUTTON_PIN5);
+  
+  if (buttonState3 == 1){
+    ecu_code = "P0001";
+  }
+  else{
+    ecu_code = "P0000";
+  }
+}
+
+void dht_termocouple(){
+  int readData = DHT.read22(DHT22_PIN); // Reads the data from the sensor
+  t = DHT.temperature; // Gets the values of the temperature
+  h = DHT.humidity; // Gets the values of the humidity
+  
+  // Termocouple  
+  // basic readout test, just print the current temp from termocouple  
+  //SERIAL_ECHO("C = "); 
+  //SERIAL_ECHOLN(thermocouple.readCelsius());
+  //SERIAL_ECHO("F = ");
+  //SERIAL_ECHOLN(thermocouple.readFahrenheit());
+ 
+  //delay(DHT22_SLEEP); // Delays 2 secods, as the DHT22 sampling rate is 0.5Hz
+}
+
+void thermistor(){
+  Vo = analogRead(THERMISTORPIN);
+  R2 = THERMISTORNOMINAL * (1023.0 / (float)Vo - 1.0);
+  logR2 = log(R2);
+  T = (1.0 / (c1 + c2*logR2 + c3*logR2*logR2*logR2));
+  Tc = T - 273.15;
+  //Tf = (Tc * 9.0)/ 5.0 + 32.0; 
+}
+
+void serial_print() {
+  buf = F("\"speed\":"); buf += int(val1/4.2625);
+  buf += F(";\"rpm\":"); buf += int(val0/0.1364);
+  buf += F(";\"engine_temp\":"); buf += Tc;
+  buf += F(";\"engine_warning\":"); buf += ecu_code;
+  buf += F(";\"fog_lamp\":"); buf += buttonState5;
+  buf += F(";\"hazard_lamp\":"); buf += buttonState2;
+  buf += F(";\"gps_latitude\":"); buf += gps_lat;
+  buf += F(";\"gps_longitude\":"); buf += gps_lng;
+  buf += F(";\"air_temp\":"); buf += t;
+  buf += F(";\"air_humidity\":"); buf += h;
+  buf += F(";\"handbrake\":"); buf += buttonState4;
+  buf += F(";\"fuel\":"); buf += int(val2/10.23); buf += F(";");
+  /*sprintf(message_buf,"\"speed\":%d;\"rpm\":%d;\"engine_temp\":%f;\
+\"engine_warning\":\"%s\";\"fog_lamp\":%s;\"hazard_lamp\":%s;\
+\"gps_latitude\":%f;\"gps_longitude\":%f;\"air_temp\":%f;\
+\"air_humidity\":%f;\"handbrake\":%s;\"fuel\":%d;",int(val1/4.2625),\
+int(val0/0.1364),float(Tc),int(buttonState3),int(buttonState5),int(buttonState2),float(gps_lat),\
+float(gps_lng),float(t),float(h),int(buttonState4),int(val2/10.23));*/
+  SERIAL_ECHOLN(buf);
 }
 
 /**
@@ -69,41 +155,55 @@ void setup() {
  *  - Process available commands (if not saving)
  */
 void loop() {
-/*  int readData = DHT.read22(DHT22_PIN); // Reads the data from the sensor
-  float t = DHT.temperature; // Gets the values of the temperature
-  float h = DHT.humidity; // Gets the values of the humidity
-  
-  // Printing the results on the serial monitor
-  SERIAL_ECHO("Temperature(DHT) = ");
-  SERIAL_ECHO(t);
-  SERIAL_ECHOLN(" *C");
-  SERIAL_ECHO("Humidity(DHT) = ");
-  SERIAL_ECHO(h);
-  SERIAL_ECHOLN(" %");
-  
-  // basic readout test, just print the current temp from termocouple  
-  SERIAL_ECHO("C = "); 
-  SERIAL_ECHOLN(thermocouple.readCelsius());
-  SERIAL_ECHO("F = ");
-  SERIAL_ECHOLN(thermocouple.readFahrenheit());
- 
-  delay(DHT22_SLEEP); // Delays 2 secods, as the DHT22 sampling rate is 0.5Hz
-*/
+  /**
+   *Read sensors data without using the delay() function. 
+   *This means that other code can run at the
+   *same time without being interrupted by the delay().
+   */
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - previousMillis >= SENSORS_READ){
+    // save the last time
+    previousMillis = currentMillis;
+
+    // DHT22 and termocouple test
+    dht_termocouple();
+
+    // Potentiometers and buttons test
+    control_sensors();
+
+    // Thermistor test
+    thermistor();
+
+    // Send data to serial port
+    serial_print();
+  }
+  //else if (currentMillis - previousMillis >= SENSORS_READ){
+    // Potentiometers and buttons test
+  //  control_sensors();
+  //}
+
   // GPS test
   while (Serial2.available() > 0 ){
     gps.encode(Serial2.read());
     if (gps.location.isUpdated()){
-      SERIAL_ECHO("Latitude= "); 
-      Serial.println(gps.location.lat(), 6);
-      SERIAL_ECHO("Longitude= "); 
-      Serial.println(gps.location.lng(), 6);
+      gps_lat = gps.location.lat();
+      gps_lng = gps.location.lng();
+      //SERIAL_ECHO("Latitude= "); 
+      //Serial.println(gps_lat, 6);
+      //SERIAL_ECHO("Longitude= "); 
+      //Serial.println(gps_lng, 6);
     }
   }
 
   // ESP test
-  String incomming_string="";
   while ( Serial1.available() > 0 ){
     incomming_string=Serial1.readString();
-    SERIAL_ECHOLN("Received string:" + incomming_string);
+    if (incomming_string.indexOf("FUNCTION1ON") > 0){
+      digitalWrite(HEADLIGHTS, HIGH);
+    }
+    else if (incomming_string.indexOf("FUNCTION1OFF") > 0){
+      digitalWrite(HEADLIGHTS, LOW);
+    }
   }
 }
