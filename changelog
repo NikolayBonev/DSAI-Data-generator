@@ -1,4 +1,4 @@
-generator (0.0.1-6) unstable; urgency=critical
+generator (0.0.1-7) unstable; urgency=critical
 
   [Viktor Stojkov]
   * Added basic logic
@@ -8,5 +8,6 @@ generator (0.0.1-6) unstable; urgency=critical
   * Added basic logic for ESP webserver
   * Added support for MEGA controller
   * Added more sensors and MEGA controller extensions
+  * Changed rpm constant
 
- -- Viktor Stojkov <vstojkov@abv.bg>  Wed, 12 Jun 2019 01:28:30 +0200
+ -- Viktor Stojkov <vstojkov@abv.bg>  Wed, 13 Jun 2019 00:37:30 +0200

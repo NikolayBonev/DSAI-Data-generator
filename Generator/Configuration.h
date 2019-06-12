@@ -68,9 +68,10 @@
 
 /**
  * Constants
+ * 7500rpm = 0.1364
  */
 #define SPEED_CONST 4.2625
-#define RPM_CONST 0.1364
+#define RPM_CONST 0.186
 #define FUEL_CONST 10.23
 
 // The following define selects which electronics board you have.
