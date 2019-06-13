@@ -1,4 +1,4 @@
-generator (0.0.1-7) unstable; urgency=critical
+generator (0.0.1-8) unstable; urgency=critical
 
   [Viktor Stojkov]
   * Added basic logic
@@ -9,5 +9,6 @@ generator (0.0.1-7) unstable; urgency=critical
   * Added support for MEGA controller
   * Added more sensors and MEGA controller extensions
   * Changed rpm constant
+  * Fixed constants
 
- -- Viktor Stojkov <vstojkov@abv.bg>  Wed, 13 Jun 2019 00:37:30 +0200
+ -- Viktor Stojkov <vstojkov@abv.bg>  Thu, 13 Jun 2019 20:11:30 +0200

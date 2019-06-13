@@ -123,8 +123,8 @@ void thermistor(){
 }
 
 void serial_print() {
-  buf = F("\"speed\":"); buf += int(val1/4.2625);
-  buf += F(";\"rpm\":"); buf += int(val0/0.1364);
+  buf = F("\"speed\":"); buf += int(val1/SPEED_CONST);
+  buf += F(";\"rpm\":"); buf += int(val0/RPM_CONST);
   buf += F(";\"engine_temp\":"); buf += Tc;
   buf += F(";\"engine_warning\":"); buf += ecu_code;
   buf += F(";\"fog_lamp\":"); buf += buttonState5;
@@ -134,7 +134,7 @@ void serial_print() {
   buf += F(";\"air_temp\":"); buf += t;
   buf += F(";\"air_humidity\":"); buf += h;
   buf += F(";\"handbrake\":"); buf += buttonState4;
-  buf += F(";\"fuel\":"); buf += int(val2/10.23); buf += F(";");
+  buf += F(";\"fuel\":"); buf += int(val2/FUEL_CONST); buf += F(";");
   /*sprintf(message_buf,"\"speed\":%d;\"rpm\":%d;\"engine_temp\":%f;\
 \"engine_warning\":\"%s\";\"fog_lamp\":%s;\"hazard_lamp\":%s;\
 \"gps_latitude\":%f;\"gps_longitude\":%f;\"air_temp\":%f;\
